@@ -1,5 +1,6 @@
 import React from "react";
 import useFetch from "./useFetch";
+import "./Footer.css";
 
 const Footer = () => {
   const { data, isPending, error } = useFetch(
@@ -14,7 +15,11 @@ const Footer = () => {
           {error}
         </p>
       )}
-      {data && <p title="Status">{data}</p>}
+      {data && (
+        <p title="Status" className="InternetConnectionStatus">
+          {data.status}
+        </p>
+      )}
     </div>
   );
 };
