@@ -8,3 +8,10 @@
   bottom: 0;
   background-color: lightgrey;
 }
+.footer2 {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 50px;
+  background-color: rgb(91, 158, 231);
+}
