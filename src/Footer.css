@@ -15,3 +15,11 @@
   margin-bottom: 50px;
   background-color: rgb(91, 158, 231);
 }
+.footer3 {
+  width: 100%;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 100px;
+  background-color: rgb(48, 175, 225);
+}

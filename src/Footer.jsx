@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useFetch from "./useFetch";
 import "./Footer.css";
 
@@ -25,8 +25,46 @@ const Footer = () => {
       }
     }, 5000);
 
+    connectWs();
+
     return () => clearInterval(interval); // Clear the interval when the component is unmounted
   }, []);
+
+  //---------------- websocket ----------------------------
+
+  const [wsState, setWsState] = useState({ status: "NOTCONNECTED" });
+
+  var wsRef = useRef();
+
+  // start web socket connection in this function
+  var connectWs = () => {
+    setWsState({ status: "CONNECTING" });
+
+    wsRef.current = new WebSocket("wss://localhost:7047");
+
+    wsRef.current.onopen = () => {
+      console.log("socket open");
+      setWsState({ status: "OPEN" });
+    };
+
+    wsRef.current.onmessage = async (e) => {
+      const socketMessage = await JSON.parse(e.data);
+      //console.log(socketMessage);
+      setWsState(socketMessage);
+    };
+
+    wsRef.current.onclose = () => {
+      console.log("socket closed by server");
+      setWsState({ status: "CLOSED" });
+    };
+  };
+
+  var closeWs = () => {
+    wsRef.current.close();
+    console.log("socket closed by client");
+    setWsState({ status: "CLOSED" });
+  };
+
   //------------------------------------------------------------------
   return (
     <>
@@ -57,6 +95,14 @@ const Footer = () => {
             {backgroundData.status}
           </p>
         )}
+      </div>
+      {/* websocket part */}
+      <div className="footer3">
+        <p className="InternetConnectionStatus">
+          {" "}
+          Internet Connection Status from WebScokets :{" "}
+          {wsState.status.toString()}
+        </p>
       </div>
     </>
   );
