@@ -7,11 +7,13 @@ const Footer = () => {
   const { data, isPending, error } = useFetch(
     "https://localhost:7047/api/helper"
   );
-
+  useEffect(() => {
+    connectWs();
+  }, []);
   // second way - call API every N time
   const [backgroundData, setBackgroundData] = useState(null);
   const [backgroundError, setBackgroundError] = useState(null);
-  //const [backgroundIsPending, setbackgroundIsPending] = useState(null);
+  const [backgroundIsPending, setbackgroundIsPending] = useState(null);
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -24,8 +26,6 @@ const Footer = () => {
         setBackgroundError(err.message);
       }
     }, 5000);
-
-    connectWs();
 
     return () => clearInterval(interval); // Clear the interval when the component is unmounted
   }, []);
